@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">VNPT</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+           aria-expanded="false" aria-label="Toggle navigation"
+           (click)="toggleCollapsed()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/login']">Trang chủ <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['tuyencap']">Quản lý Tuyến cáp</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['doancap']">Quản lý Đoạn cáp</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['soicap']">Quản lý Sợi cáp</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" (click)="logOut()">Đăng xuất</a>
+            </li>
+        </ul>
+    </div>
+</nav>
