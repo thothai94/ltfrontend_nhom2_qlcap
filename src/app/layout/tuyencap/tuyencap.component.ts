@@ -1,10 +1,10 @@
 import { TuyenCapService } from './../../services/tuyen-cap.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-tuyencap',
   templateUrl: './tuyencap.component.html',
-  styleUrls: ['./tuyencap.component.css']
+  styleUrls: ['./tuyencap.component.css', '../../../../node_modules/bootstrap/dist/css/bootstrap.css']
 })
 export class TuyencapComponent implements OnInit {
 
@@ -15,13 +15,23 @@ export class TuyencapComponent implements OnInit {
   newTuyenCapYear:string = "0";
   newTuyenCapLong:number = 0;
   tuyenCaps:[] = [];
+  @ViewChild('addModal') modal
 
   constructor(
-    private tuyenCapService:TuyenCapService
+    private tuyenCapService:TuyenCapService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
     this.getList();
+  }
+
+  showModal(){
+    this.renderer.setStyle(this.modal.nativeElement, "display", "block")
+  }
+
+  hideModal(){
+    this.renderer.setStyle(this.modal.nativeElement, "display", "none")
   }
 
   getList() {
@@ -61,6 +71,7 @@ export class TuyencapComponent implements OnInit {
       this.newTuyenCapLong, 
       this.newTuyenCapYear).subscribe(
       (data:any) => {
+        this.hideModal()
         alert('Thêm tuyến cáp thành công');
         // $('#tuyen-cap-form-modal').modal('hide');
         this.getList();
@@ -71,6 +82,7 @@ export class TuyencapComponent implements OnInit {
         this.newTuyenCapYear = '0';
       },
       (error: any) => {
+        this.hideModal()
         alert(error.error.message);
       }
     );
