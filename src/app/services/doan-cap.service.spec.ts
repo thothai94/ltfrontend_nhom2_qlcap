@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DoanCapService } from './tuyen-cap.service';
+import { DoanCapService } from './doan-cap.service';
 
 describe('DoanCapService', () => {
   let service: DoanCapService;

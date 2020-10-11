@@ -4,21 +4,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-tuyencap',
   templateUrl: './tuyencap.component.html',
-  styleUrls: ['./tuyencap.component.css']
+  styleUrls: ['./tuyencap.component.css'],
 })
 export class TuyencapComponent implements OnInit {
+  loading: boolean = false;
+  newTuyenCapName: string = '';
+  newTuyenCapStatus: string = '0';
+  newTuyenCapId: string = '0';
+  newTuyenCapYear: string = '0';
+  newTuyenCapLong: string = '0';
+  tuyenCaps: any[] = [];
 
-  loading:boolean = false;
-  newTuyenCapName:string = '';
-  newTuyenCapStatus:number = 0;
-  newTuyenCapId:number = 0;
-  newTuyenCapYear:string = "0";
-  newTuyenCapLong:number = 0;
-  tuyenCaps:[] = [];
-
-  constructor(
-    private tuyenCapService:TuyenCapService
-  ) { }
+  constructor(private tuyenCapService: TuyenCapService) {}
 
   ngOnInit(): void {
     this.getList();
@@ -26,9 +23,10 @@ export class TuyencapComponent implements OnInit {
 
   getList() {
     this.tuyenCapService.getListTuyenCap().subscribe(
-      (data:any) => {
+      (data: any) => {
         // console.log(data);
-        this.tuyenCaps = data.Danh_sach_Tuyen_cap;
+        this.tuyenCaps = data.data;
+        localStorage.setItem('ds_tuyencap', JSON.stringify(data.data));
         // console.log(this.tuyenCaps.length);
       },
       (error: any) => {
@@ -37,76 +35,98 @@ export class TuyencapComponent implements OnInit {
     );
   }
 
-  // removeTuyenCap(id:number) {
-  //   let r = confirm('Bạn có chắc muốn xoá category này?');
-  //   if(r) {
-  //     this.tuyenCapService.removeTuyenCap(id).subscribe(
-  //       (data:any) => {
-  //         this.getList();
-  //         alert(data.message);
-  //       },
-  //       (error: any) => {
-  //         alert(error.error.message);
-  //       }
-  //     );
-  //   }
-    
-  // }
+  removeTuyenCap(id:string) {
+    let r = confirm('Bạn có chắc muốn xoá tuyến cáp này?');
+    if(r) {
+      this.tuyenCapService.removeTuyenCap(id).subscribe(
+        (data:any) => {
+          console.log(data);
+          this.getList();
+          alert(data.data);
+        },
+        (error: any) => {
+          alert('Không xoá được tuyến cáp');
+        }
+      );
+    }
+
+  }
 
   addNewTuyenCap() {
-    this.tuyenCapService.addTuyenCap(
-      this.newTuyenCapName, 
-      this.newTuyenCapStatus, 
-      this.newTuyenCapId, 
-      this.newTuyenCapLong, 
+    this.tuyenCapService
+      .addTuyenCap(
+        this.newTuyenCapName,
+        this.newTuyenCapStatus,
+        this.newTuyenCapId,
+        this.newTuyenCapLong,
+        this.newTuyenCapYear
+      )
+      .subscribe(
+        (data: any) => {
+          alert('Thêm tuyến cáp thành công');
+          $('#tuyen-cap-form-modal').modal('hide');
+          this.getList();
+          this.newTuyenCapName = '';
+          this.newTuyenCapStatus = '0';
+          this.newTuyenCapId = '0';
+          this.newTuyenCapLong = '0';
+          this.newTuyenCapYear = '0';
+        },
+        (error: any) => {
+          alert(error.error.message);
+        }
+      );
+  }
+
+  getTuyenCap(id: string) {
+    // this.tuyenCapService.getTuyenCapById(id).subscribe(
+    //   (data:any) => {
+    //     console.log(data);
+    //     // alert(data.message);
+
+    //     // this.getList();
+    //     this.newTuyenCapName = data.object.categoryName;
+    //     this.newTuyenCapName = '';
+    //     this.newTuyenCapStatus = "0";
+    //     this.newTuyenCapId = "0";
+    //     this.newTuyenCapLong = "0";
+    //     this.newTuyenCapYear = '0';
+    //   },
+    //   (error: any) => {
+    //     alert(error.error.message);
+    //   }
+    // );
+    console.log(id);
+    this.tuyenCaps = JSON.parse(localStorage.getItem('ds_tuyencap'));
+    
+    var index = this.tuyenCaps.findIndex(x => x.tuyen_id === id);
+    console.log(index);
+    console.log(this.tuyenCaps[index]);
+    this.newTuyenCapId = this.tuyenCaps[index].tuyen_id;
+    this.newTuyenCapName = this.tuyenCaps[index].ten_tuyen;
+    this.newTuyenCapStatus = this.tuyenCaps[index].trang_thai;
+    this.newTuyenCapLong = this.tuyenCaps[index].chieu_dai_tuyen;
+    this.newTuyenCapYear = this.tuyenCaps[index].nam_khai_thac;
+    $('#tuyen-cap-update-form-modal').modal('show');
+  }
+
+  updateTuyenCap(id:number, name:string) {
+    this.tuyenCapService.editTuyenCap(this.newTuyenCapName,
+      this.newTuyenCapStatus,
+      this.newTuyenCapId,
+      this.newTuyenCapLong,
       this.newTuyenCapYear).subscribe(
       (data:any) => {
-        alert('Thêm tuyến cáp thành công');
-        // $('#tuyen-cap-form-modal').modal('hide');
+        console.log(data);
+        alert(data.message);
+
         this.getList();
-        this.newTuyenCapName = '';
-        this.newTuyenCapStatus = 0; 
-        this.newTuyenCapId = 0;
-        this.newTuyenCapLong = 0; 
-        this.newTuyenCapYear = '0';
+        // this.newTuyenCapName = data.object.categoryName;
       },
       (error: any) => {
         alert(error.error.message);
       }
     );
+    $('#tuyen-cap-update-form-modal').modal('hide');
   }
-
-  // getCategory(id:number) {
-  //   this.modalTitle = 'Thông tin danh mục';
-  //   this.categoryService.getCategoryById(id).subscribe(
-  //     (data:any) => {
-  //       // console.log(data);
-  //       // alert(data.message);
-        
-  //       // this.getList();
-  //       this.newCategoryName = data.object.categoryName;
-  //     },
-  //     (error: any) => {
-  //       alert(error.error.message);
-  //     }
-  //   );
-  //   // $('#category-form-modal').modal('show');
-  // }
-
-  // updateCategory(id:number, name:string) {
-  //   this.categoryService.editCategory(name, id).subscribe(
-  //     (data:any) => {
-  //       // console.log(data);
-  //       // alert(data.message);
-        
-  //       // this.getList();
-  //       this.newCategoryName = data.object.categoryName;
-  //     },
-  //     (error: any) => {
-  //       alert(error.error.message);
-  //     }
-  //   );
-  //   // $('#category-form-modal').modal('hide');
-  // }
-
 }

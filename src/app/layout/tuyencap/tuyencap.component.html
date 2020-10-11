@@ -8,6 +8,7 @@
       <th scope="col">#</th>
       <th scope="col">Tên</th>
       <th scope="col">ID</th>
+      <th scope="col">Chiều dài tuyến (Km)</th>
       <th scope="col">Trạng thái</th>
       <th scope="col">Công cụ</th>
     </tr>
@@ -17,13 +18,14 @@
       <th scope="row">#</th>
       <td>{{tuyenCap.ten_tuyen}}</td>
       <td>{{tuyenCap.tuyen_id}}</td>
+      <td>{{tuyenCap.chieu_dai_tuyen}}</td>
       <td *ngIf="tuyenCap.trang_thai == 1; else onlineStatus">ONLINE</td>
       <ng-template #onlineStatus>
         OFFLINE
       </ng-template>
       <td>
-        <button class="btn btn-primary mr-2" (click)="getTuyenCap(category.id)">Sửa</button>
-        <button class="btn btn-danger ml-2" type="button" (click)="removeTuyenCap(category.id)">Xoá</button>
+        <button class="btn btn-primary mr-2" (click)="getTuyenCap(tuyenCap.tuyen_id)">Sửa</button>
+        <button class="btn btn-danger ml-2" type="button" (click)="removeTuyenCap(tuyenCap.tuyen_id)">Xoá</button>
     </td>
     </tr>
   </tbody>
@@ -39,9 +41,9 @@
               </button>
           </div>
           <div class="modal-body">
-              <div class="alert alert-warning text-center">
+              <!-- <div class="alert alert-warning text-center">
                   <i class="fas fa-spin fa-spinner"></i>
-              </div>
+              </div> -->
                   <div class="form-group row">
                       <label class="col-md-2 col-form-label" for="tuyen_cap_id">ID Tuyến cáp</label>
                       <div class="col-md-10">
@@ -78,6 +80,60 @@
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
               <button type="button" class="btn btn-primary" (click)="addNewTuyenCap()">Lưu lại</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="tuyen-cap-update-form-modal">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Cập nhật Thông tin tuyến cáp</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- <div class="alert alert-warning text-center">
+                  <i class="fas fa-spin fa-spinner"></i>
+              </div> -->
+                  <div class="form-group row">
+                      <label class="col-md-2 col-form-label" for="tuyen_cap_id">ID Tuyến cáp</label>
+                      <div class="col-md-10">
+                          <input [(ngModel)]="newTuyenCapId" type="text" class="form-control"
+                          placeholder="Nhập ID Tuyến cáp" only-numbers>
+                          <div id="validation_tuyen_cap_id" class="invalid-feedback d-none"></div>
+                      </div>
+                      <label class="col-md-2 col-form-label" for="tuyen_cap_name">Tên Tuyến cáp</label>
+                      <div class="col-md-10">
+                          <input [(ngModel)]="newTuyenCapName" type="text" class="form-control"
+                          placeholder="Nhập tên Tuyến cáp">
+                          <div id="validation_tuyen_cap_name" class="invalid-feedback d-none"></div>
+                      </div>
+                      <label class="col-md-2 col-form-label" for="tuyen_cap_status">Trạng thái Tuyến cáp</label>
+                      <div class="col-md-10">
+                          <input [(ngModel)]="newTuyenCapStatus" type="text" class="form-control"
+                          placeholder="Nhập trạng thái Tuyến cáp" only-numbers>
+                          <div id="validation_tuyen_cap_status" class="invalid-feedback d-none"></div>
+                      </div>
+                      <label class="col-md-2 col-form-label" for="tuyen_cap_long">Chiều dài Tuyến cáp</label>
+                      <div class="col-md-10">
+                          <input [(ngModel)]="newTuyenCapLong" type="text" class="form-control"
+                          placeholder="Nhập chiều dài Tuyến cáp" only-numbers>
+                          <div id="validation_tuyen_cap_long" class="invalid-feedback d-none"></div>
+                      </div>
+                      <label class="col-md-2 col-form-label" for="tuyen_cap_year">Năm khai thác Tuyến cáp</label>
+                      <div class="col-md-10">
+                          <input [(ngModel)]="newTuyenCapYear" type="text" class="form-control"
+                          placeholder="Nhập năm khai thác Tuyến cáp">
+                          <div id="validation_tuyen_cap_year" class="invalid-feedback d-none"></div>
+                      </div>
+                  </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-primary" (click)="updateTuyenCap()">Cập nhật</button>
           </div>
       </div>
   </div>

@@ -1,1 +1,115 @@
-<p>soicap works!</p>
+
+<button class="btn btn-primary btn-sm my-2" data-toggle="modal" data-target="#soi-cap-form-modal">
+    <i class="fas fa-plus mr-2"></i>Thêm mới
+  </button>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên</th>
+        <th scope="col">ID</th>
+        <th scope="col">Trạng thái</th>
+        <th scope="col">Công cụ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let soiCap of soiCaps">
+        <th scope="row">#</th>
+        <td>{{soiCap.ten_soi}}</td>
+        <td>{{soiCap.soi_id}}</td>
+        <td *ngIf="soiCap.trang_thai == 1; else onlineStatus">ONLINE</td>
+        <ng-template #onlineStatus>
+          OFFLINE
+        </ng-template>
+        <td>
+          <button class="btn btn-primary mr-2" (click)="getSoiCap(soiCap.soi_id)">Sửa</button>
+          <button class="btn btn-danger ml-2" type="button" (click)="removeSoiCap(soiCap.soi_id)">Xoá</button>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="modal" tabindex="-1" id="soi-cap-form-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông tin sợi cáp</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="alert alert-warning text-center">
+                    <i class="fas fa-spin fa-spinner"></i>
+                </div> -->
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" for="doan_cap_id">ID sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapId" type="text" class="form-control"
+                            placeholder="Nhập ID sợi cáp" only-numbers>
+                            <div id="validation_doan_cap_id" class="invalid-feedback d-none"></div>
+                        </div>
+                        <label class="col-md-2 col-form-label" for="doan_cap_name">Tên sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapName" type="text" class="form-control"
+                            placeholder="Nhập tên sợi cáp">
+                            <div id="validation_doan_cap_name" class="invalid-feedback d-none"></div>
+                        </div>
+                        <label class="col-md-2 col-form-label" for="doan_cap_status">Trạng thái sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapStatus" type="text" class="form-control"
+                            placeholder="Nhập trạng thái sợi cáp" only-numbers>
+                            <div id="validation_doan_cap_status" class="invalid-feedback d-none"></div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" (click)="addNewSoiCap()">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <div class="modal" tabindex="-1" id="soi-cap-update-form-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cập nhật Thông tin sợi cáp</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="alert alert-warning text-center">
+                    <i class="fas fa-spin fa-spinner"></i>
+                </div> -->
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label" for="doan_cap_id">ID sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapId" type="text" class="form-control"
+                            placeholder="Nhập ID sợi cáp" only-numbers>
+                            <div id="validation_doan_cap_id" class="invalid-feedback d-none"></div>
+                        </div>
+                        <label class="col-md-2 col-form-label" for="doan_cap_name">Tên sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapName" type="text" class="form-control"
+                            placeholder="Nhập tên sợi cáp">
+                            <div id="validation_doan_cap_name" class="invalid-feedback d-none"></div>
+                        </div>
+                        <label class="col-md-2 col-form-label" for="doan_cap_status">Trạng thái sợi cáp</label>
+                        <div class="col-md-10">
+                            <input [(ngModel)]="newSoiCapStatus" type="text" class="form-control"
+                            placeholder="Nhập trạng thái sợi cáp" only-numbers>
+                            <div id="validation_doan_cap_status" class="invalid-feedback d-none"></div>
+                        </div>
+                
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" (click)="updateSoiCap()">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+  </div>

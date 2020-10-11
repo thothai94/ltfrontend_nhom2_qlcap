@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DoanCapService } from './tuyen-cap.service';
+import { SoiCapService } from './soi-cap.service';
 
-describe('DoanCapService', () => {
-  let service: DoanCapService;
+describe('SoiCapService', () => {
+  let service: SoiCapService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DoanCapService);
+    service = TestBed.inject(SoiCapService);
   });
 
   it('should be created', () => {
